@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState("");
   const [history, setHistory] = useState([]);
 
-  const API_KEY = "dfc031bdd72d08ad14e84945dbc9991e"; // Replace with your OpenWeather API key
+  const API_KEY = "dfc031bdd72d08ad14e84945dbc9991e";
 
   useEffect(() => {
     // Clear history when the component mounts
@@ -21,17 +21,7 @@ function App() {
     };
 
     clearHistory();
-    fetchHistory();
   }, []);
-
-  const fetchHistory = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/userdata");
-      setHistory(response.data);
-    } catch (err) {
-      console.error("Error fetching history", err);
-    }
-  };
 
   const getWeather = async (e) => {
     e.preventDefault();
