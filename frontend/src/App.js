@@ -66,6 +66,10 @@ function App() {
             <h2>{weather.name}</h2>
             <p>Temperature: {weather.main.temp} °C</p>
             <p>Condition: {weather.weather[0].description}</p>
+            <img
+              src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+              alt={weather.weather[0].description}
+            />
           </div>
         )}
       </header>
