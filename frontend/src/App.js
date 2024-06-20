@@ -6,7 +6,7 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState([]); // Initialize as an empty array
 
   const API_KEY = "dfc031bdd72d08ad14e84945dbc9991e";
 
@@ -14,7 +14,9 @@ function App() {
     // Clear history when the component mounts
     const clearHistory = async () => {
       try {
-        await axios.post("http://localhost:5000/api/clearhistory");
+        await axios.post(
+          "https://drqxajfvg5.execute-api.us-east-1.amazonaws.com/dev/api/clearhistory"
+        );
       } catch (err) {
         console.error("Error clearing history", err);
       }
@@ -32,14 +34,17 @@ function App() {
       );
       setWeather(response.data);
 
-      await axios.post("http://localhost:5000/api/userdata", {
-        city: response.data.name,
-        temperature: response.data.main.temp,
-      });
+      await axios.post(
+        "https://drqxajfvg5.execute-api.us-east-1.amazonaws.com/dev/api/userdata",
+        {
+          city: response.data.name,
+          temperature: response.data.main.temp,
+        }
+      );
 
       // Fetch updated history
       const historyResponse = await axios.get(
-        "http://localhost:5000/api/userdata"
+        "https://drqxajfvg5.execute-api.us-east-1.amazonaws.com/dev/api/userdata"
       );
       setHistory(historyResponse.data);
     } catch (err) {
@@ -75,16 +80,20 @@ function App() {
       </header>
       <h2>Previously Searched Cities</h2>
       <div id="searchHistory" className="search-history">
-        {[...history].reverse().map((item, index) => (
-          <div key={index}>
-            <div>
-              <strong>City:</strong> {item.city}
+        {history.length > 0 ? (
+          [...history].reverse().map((item, index) => (
+            <div key={index}>
+              <div>
+                <strong>City:</strong> {item.city}
+              </div>
+              <div>
+                <strong>Temperature:</strong> {item.temperature}°C
+              </div>
             </div>
-            <div>
-              <strong>Temperature:</strong> {item.temperature}°C
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No search history available.</p>
+        )}
       </div>
     </div>
   );
