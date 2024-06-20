@@ -62,6 +62,7 @@ function App() {
             placeholder="Enter city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            required
           />
           <button type="submit">Get Weather</button>
         </form>
